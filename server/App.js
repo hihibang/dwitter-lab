@@ -1,45 +1,24 @@
-//1. 라이브러리 임포트
+//1. express 라이브러리, 미들웨어 임포트 
+// const express = require('express'); //type=commonjs
 import express from 'express';
-import cors from 'cors'
+import cors from 'cors';
+import apiRouter from './routes/api.js';
+import usersRouter from './routes/users.js';
 
-//2. 익스프레스 서버 객체 생성
+//2. express 객체 생성
 const PORT = 9000;
 const app = express();
 
-//3. 미들웨어
-app.use(cors()) // 모든 origin(프론트) 허용
-app.use(express.json()) // pront에서 넘어오는 데이터는 모두 문자열 취급
-app.use(express.urlencoded({extended: false}))
+//3. 미들웨어 추가
+app.use(express.json());  //body로 넘어온 JSON 문자열 파싱
+app.use(express.urlencoded({extended: false}));
+app.use(cors());
 
 //4. 라우팅
-app.get('/', (req, res, next)=>{
-    res.send('response -> server.js')
-});
-app.get('/api/get', (req, res, next)=>{
-    // console.log('/api/get !!!!!!');
-    const fruitList = [
-        {
-            name: "apple",
-            color: "red",
-            emoji: "🍎"
-        },
-        {
-            name: "orange",
-            color: "orange",
-            emoji: "🍊"
-        }
-    ]
-    res.json({list: fruitList})
-    
-});
+app.use('/api', apiRouter);
+app.use('/users', usersRouter);
 
-app.post('/api/post', (req, res, next)=> {
-    console.log('/api/post', req.body.name);
-    res.json({"result": req.body.name})
+//5. 서버 시작
+app.listen(PORT, () => {
+    console.log(`서버 실행 ==>> ${PORT}`);
 });
-
-//5. 익스프레스 서버 객체 생성
-app.listen(PORT, ()=>{
-    console.log(`server --------> ${PORT}`);
-    
-})
