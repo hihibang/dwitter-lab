@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import fs from "fs";
-import path from "path";
+import fs from "fs"; //파일
+import path from "path"; //경로
 import { fileURLToPath } from "url";
 import authRoutes from "./routes/auth.js";
 import tweetRoutes from "./routes/tweets.js";

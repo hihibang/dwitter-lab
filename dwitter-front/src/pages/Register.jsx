@@ -70,12 +70,14 @@ export default function Register() {
       // ✅ 2단계: 파일이 있으면 서버 업로드 먼저
       let profileImage = "";
       if (file) {
-        const formData = new FormData();
+        const formData = new FormData(); // 이미지 파일을 업로드할때 사용
         formData.append("file", file);
         const res  = await fetch("/upload", { method: "POST", body: formData });
         if (!res.ok) throw new Error("이미지 업로드 실패");
         const data = await res.json();
         profileImage = data.filename;
+      console.log('업로드 이미지 =>',profileImage);
+      
       }
 
       // ✅ 2단계: 실제 서버 회원가입 API 호출
